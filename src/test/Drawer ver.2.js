@@ -1,3 +1,6 @@
+//0. filter를 추가하기위한 Drawer open버튼+ fitler의 데이터를 받아올 input
+// 1. filter의 기본값 없음
+// 2. Drawer에서의 변경사항 바로 적용.
 import React, { useState } from "react";
 import {
   Drawer,

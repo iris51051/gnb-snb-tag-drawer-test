@@ -1,3 +1,4 @@
+//0. filter를 추가하기위한 Drawer open버튼+ fitler의 데이터를 받아올 input
 import React, { useState } from "react";
 import {
   Drawer,
@@ -64,14 +65,14 @@ const MyComponent = () => {
   const [visible, setVisible] = useState(false);
   const { token } = theme.useToken();
   const [filter, setFilter] = useState({});
-
+  const [tagValue, setTagValue] = useState([]);
   const showDrawer = () => {
     setVisible(true);
   };
 
   const closeDrawer = () => {
     setVisible(false);
-    resetFilter();
+    resetFilter({});
   };
 
   const closeButtonStyle = {
@@ -80,11 +81,9 @@ const MyComponent = () => {
     right: "8px",
   };
   const resetFilter = () => {
-    setFilter({
-      include: "포함",
-      session: "첫번째 세션",
-      date: currentDate.format("YYYYMMDD"),
-    });
+    setFilter({});
+    setTagValue([]);
+    console.log(filter);
   };
   const findNodeByValue = (nodes, targetValue) => {
     const foundNode = nodes.find((node) => node.value === targetValue);
@@ -125,7 +124,21 @@ const MyComponent = () => {
     }
   };
   const saveFilter = () => {
-    setVisible(false);
+    if (
+      !filter.hasOwnProperty("include") ||
+      !filter.hasOwnProperty("session") ||
+      !filter.hasOwnProperty("date")
+    ) {
+      alert("모든 조건을 입력해주세요");
+      setVisible(true);
+    } else {
+      const order = ["include", "session", "date"];
+      setTagValue(order.map((key) => filter[key]));
+      setVisible(false);
+      console.log(filter);
+      console.log(filter.include);
+      alert("모든 조건 입력 완료");
+    }
   };
 
   const tagPlusStyle = {
@@ -138,11 +151,7 @@ const MyComponent = () => {
       <Tag onClick={showDrawer} style={tagPlusStyle}>
         <PlusOutlined /> 필터 추가
       </Tag>
-      <Input
-        value={`${filter.include || ""} ${
-          filter.session ? `= ${filter.session}` : ""
-        } ${filter.date || ""}`}
-      />
+      <Input value={tagValue.join(", ")} />{" "}
       <Drawer
         className="FilterDrawer"
         title={
@@ -203,13 +212,13 @@ const MyComponent = () => {
                 <Select
                   size="small"
                   value={filter.include}
-                  defaultValue="포함"
                   onChange={(value) => FilterSet("include", value)}
                   style={{
                     width: 70,
                   }}
                   bordered={false}
                   options={includeOps}
+                  placeholder={"선택"}
                 />
               </Space>
               <Text
@@ -230,7 +239,6 @@ const MyComponent = () => {
               {/* 세션 셀렉트 */}
               <Space wrap>
                 <TreeSelect
-                  defaultValue="첫 번째 세션"
                   size="small"
                   style={{
                     marginLeft: 10,
@@ -246,6 +254,7 @@ const MyComponent = () => {
                   treeData={sessionOps}
                   onChange={(value) => FilterSet("session", value)}
                   options={sessionOps}
+                  placeholder={"세션 선택"}
                 />
               </Space>
             </div>
@@ -260,7 +269,7 @@ const MyComponent = () => {
             <div>
               <Space wrap>
                 <Select
-                  defaultValue="20230623"
+                  // defaultValue="20230623"
                   size="small"
                   style={{
                     marginLeft: 10,
@@ -270,6 +279,8 @@ const MyComponent = () => {
                   value={filter.date}
                   onChange={(value) => FilterSet("date", value)}
                   options={dateOps}
+                  // placeholder={filter.date === null ? '선택하세요' : undefined} // Render placeholder if include is null
+                  placeholder={"날짜 선택"}
                 />
               </Space>
             </div>

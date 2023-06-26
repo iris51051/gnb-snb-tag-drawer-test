@@ -15,7 +15,6 @@ const { Header, Sider, Content, Footer } = Layout;
 
 const App = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const [collapsed2, setCollapsed2] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();

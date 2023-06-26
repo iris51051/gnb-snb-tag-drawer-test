@@ -1,5 +1,10 @@
+//0. filter를 추가하기위한 Drawer open버튼+ fitler의 데이터를 받아올 input
+//1. filter에 defalut값 배정
+//2. drawer에서 변경시 input에 바로 적용.
+
 import React, { useState } from "react";
 import {
+  Button,
   Drawer,
   Input,
   Space,
@@ -16,7 +21,7 @@ import { FiTrash } from "react-icons/fi";
 import { TfiCheck } from "react-icons/tfi";
 import dayjs from "dayjs";
 
-import "../index.css";
+import "./index.css";
 const { Text } = Typography;
 const { Content } = Layout;
 const currentDate = dayjs();
@@ -63,7 +68,11 @@ for (let i = 0; i < 30; i++) {
 const MyComponent = () => {
   const [visible, setVisible] = useState(false);
   const { token } = theme.useToken();
-  const [filter, setFilter] = useState({});
+  const [filter, setFilter] = useState({
+    include: "포함",
+    session: "첫 번째 세션",
+    date: currentDate.format("YYYYMMDD"),
+  });
 
   const showDrawer = () => {
     setVisible(true);
@@ -139,9 +148,8 @@ const MyComponent = () => {
         <PlusOutlined /> 필터 추가
       </Tag>
       <Input
-        value={`${filter.include || ""} ${
-          filter.session ? `= ${filter.session}` : ""
-        } ${filter.date || ""}`}
+        value={`${filter.include} ${filter.session} = ${filter.date}`}
+        // value={filter.join("")}
       />
       <Drawer
         className="FilterDrawer"
@@ -284,9 +292,7 @@ const MyComponent = () => {
             <div>
               <Input
                 placeholder="Basic usage"
-                value={`${filter.include || ""} ${
-                  filter.session ? `${filter.session} = ` : ""
-                } ${filter.date || ""}`}
+                value={`${filter.include} ${filter.session} = ${filter.date}`}
                 readOnly
               />
             </div>
