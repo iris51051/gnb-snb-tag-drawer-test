@@ -1,10 +1,9 @@
 //0. filter를 추가하기위한 Drawer open버튼+ fitler의 데이터를 받아올 input
-//1. filter에 defalut값 배정
-//2. drawer에서 변경시 input에 바로 적용.
+//1. reset 후 저장하려할 때 경고창 노출
+//2. 날짜 검색 기능
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
-  Button,
   Drawer,
   Input,
   Space,
@@ -13,15 +12,11 @@ import {
   Divider,
   Typography,
   TreeSelect,
-  theme,
-  Tag,
 } from "antd";
-import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
+import { CloseOutlined } from "@ant-design/icons";
 import { FiTrash } from "react-icons/fi";
 import { TfiCheck } from "react-icons/tfi";
 import dayjs from "dayjs";
-
-import "./index.css";
 const { Text } = Typography;
 const { Content } = Layout;
 const currentDate = dayjs();
@@ -65,23 +60,28 @@ for (let i = 0; i < 30; i++) {
     label: day.format("YYYYMMDD"),
   });
 }
-const MyComponent = () => {
-  const [visible, setVisible] = useState(false);
-  const { token } = theme.useToken();
-  const [filter, setFilter] = useState({
-    include: "포함",
-    session: "첫 번째 세션",
-    date: currentDate.format("YYYYMMDD"),
-  });
-
-  const showDrawer = () => {
-    setVisible(true);
-  };
+const FilterTagDrawer = ({
+  onValueChange,
+  DrawerVisible,
+  onCloseDrawer,
+  updateValue,
+}) => {
+  const [visible, setVisible] = useState(DrawerVisible);
+  const [filter, setFilter] = useState({});
+  const [tagValue, setTagValue] = useState([]);
 
   const closeDrawer = () => {
     setVisible(false);
-    resetFilter();
+    onCloseDrawer(false);
   };
+  //Demo의 필터추가 버튼을 누를시의 Drawer visible 변경
+  useEffect(() => {
+    setVisible(DrawerVisible); // Update the visible state whenever the DrawerVisible prop changes
+  }, [DrawerVisible]);
+  //Demo에서 filter Tag를 삭제했을 경우에 Drawer에 기존에 저장된 filter 리셋
+  useEffect(() => {
+    resetFilter();
+  }, [updateValue]);
 
   const closeButtonStyle = {
     position: "absolute",
@@ -89,11 +89,8 @@ const MyComponent = () => {
     right: "8px",
   };
   const resetFilter = () => {
-    setFilter({
-      include: "포함",
-      session: "첫번째 세션",
-      date: currentDate.format("YYYYMMDD"),
-    });
+    setFilter({});
+    setTagValue([]);
   };
   const findNodeByValue = (nodes, targetValue) => {
     const foundNode = nodes.find((node) => node.value === targetValue);
@@ -134,23 +131,27 @@ const MyComponent = () => {
     }
   };
   const saveFilter = () => {
-    setVisible(false);
+    if (
+      //내부 데이터를 하나씩 다 조회해서 존재 여부 확인
+      // !filter.hasOwnProperty('include') ||
+      // !filter.hasOwnProperty('session') ||
+      // !filter.hasOwnProperty('date')
+      //filter의 데이터의 수량을 파악해서 확인
+      Object.keys(filter).length !== 3
+    ) {
+      alert("모든 조건을 선택해주세요");
+    } else {
+      const order = ["include", "session", "date"];
+      setTagValue(order.map((key) => filter[key]));
+      setVisible(false);
+      onCloseDrawer(false);
+    }
   };
 
-  const tagPlusStyle = {
-    background: token.colorBgContainer,
-    borderStyle: "dashed",
-  };
+  onValueChange(tagValue);
 
   return (
     <div>
-      <Tag onClick={showDrawer} style={tagPlusStyle}>
-        <PlusOutlined /> 필터 추가
-      </Tag>
-      <Input
-        value={`${filter.include} ${filter.session} = ${filter.date}`}
-        // value={filter.join("")}
-      />
       <Drawer
         className="FilterDrawer"
         title={
@@ -164,9 +165,9 @@ const MyComponent = () => {
         }
         open={visible}
         onClose={closeDrawer}
-        mask={false} // Disable the mask layer
-        maskClosable={false} // Prevent closing the drawer when clicking outside
-        closeIcon={<CloseOutlined style={closeButtonStyle} />} // Apply custom style to the close button
+        mask={false}
+        maskClosable={false}
+        closeIcon={<CloseOutlined style={closeButtonStyle} />}
         headerStyle={{
           height: "30px",
         }}
@@ -211,13 +212,13 @@ const MyComponent = () => {
                 <Select
                   size="small"
                   value={filter.include}
-                  defaultValue="포함"
                   onChange={(value) => FilterSet("include", value)}
                   style={{
                     width: 70,
                   }}
                   bordered={false}
                   options={includeOps}
+                  placeholder={"선택"}
                 />
               </Space>
               <Text
@@ -238,7 +239,6 @@ const MyComponent = () => {
               {/* 세션 셀렉트 */}
               <Space wrap>
                 <TreeSelect
-                  defaultValue="첫 번째 세션"
                   size="small"
                   style={{
                     marginLeft: 10,
@@ -254,6 +254,7 @@ const MyComponent = () => {
                   treeData={sessionOps}
                   onChange={(value) => FilterSet("session", value)}
                   options={sessionOps}
+                  placeholder={"세션 선택"}
                 />
               </Space>
             </div>
@@ -268,7 +269,6 @@ const MyComponent = () => {
             <div>
               <Space wrap>
                 <Select
-                  defaultValue="20230623"
                   size="small"
                   style={{
                     marginLeft: 10,
@@ -278,6 +278,7 @@ const MyComponent = () => {
                   value={filter.date}
                   onChange={(value) => FilterSet("date", value)}
                   options={dateOps}
+                  placeholder={"날짜 선택"}
                 />
               </Space>
             </div>
@@ -292,7 +293,9 @@ const MyComponent = () => {
             <div>
               <Input
                 placeholder="Basic usage"
-                value={`${filter.include} ${filter.session} = ${filter.date}`}
+                value={`${filter.include || ""} ${
+                  filter.session ? `${filter.session} = ` : ""
+                } ${filter.date || ""}`}
                 readOnly
               />
             </div>
@@ -303,4 +306,4 @@ const MyComponent = () => {
   );
 };
 
-export default MyComponent;
+export default FilterTagDrawer;

@@ -6,9 +6,10 @@ import {
   VideoCameraOutlined,
   MenuUnfoldOutlined,
 } from "@ant-design/icons";
-import { Button, Layout, Menu, theme, Space, Affix } from "antd";
+import { Button, Layout, Menu, theme } from "antd";
 import { useState } from "react";
-import Drawer from "./test/Drawer.js";
+import Drawer from "./test/DrawerV3.js";
+import FilterTagAdder from "./test/tag.js";
 import "./index.css";
 
 const { Header, Sider, Content, Footer } = Layout;
@@ -18,6 +19,27 @@ const App = () => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
+  //filterTag 추가
+  const [selectedValue, setSelectedValue] = useState([]);
+  const [updateValue, setUpdateValue] = useState([]);
+  const [DrawerVisible, setDrawerVisible] = useState(false);
+  const tagChange = (data) => {
+    if (Object.keys(data).length !== 0) {
+      setSelectedValue(data);
+    } else {
+      setSelectedValue(data);
+    }
+  };
+  const handleTagClick = (isVisible) => {
+    setDrawerVisible(isVisible);
+  };
+  const handleDrawerClose = (isVisible) => {
+    setDrawerVisible(isVisible);
+  };
+  const handleTagListChange = (updatedValue) => {
+    setUpdateValue(updatedValue);
+  };
 
   return (
     <Layout>
@@ -75,7 +97,17 @@ const App = () => {
               alignItems: "center",
             }}
           >
-            <Drawer />
+            <FilterTagAdder
+              selectedValue={selectedValue}
+              onValueChange={handleTagListChange}
+              onTagClick={handleTagClick}
+            />
+            <Drawer
+              onValueChange={tagChange}
+              DrawerVisible={DrawerVisible}
+              onCloseDrawer={handleDrawerClose}
+              updateValue={updateValue}
+            />
             <div></div>
           </Content>
         </Layout>
