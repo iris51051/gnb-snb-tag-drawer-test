@@ -8,8 +8,7 @@ import {
 } from "@ant-design/icons";
 import { Button, Layout, Menu, theme } from "antd";
 import { useState } from "react";
-import Drawer from "./test/DrawerV3.js";
-import FilterTagAdder from "./test/tag.js";
+
 import "./index.css";
 
 const { Header, Sider, Content, Footer } = Layout;
@@ -20,76 +19,95 @@ const App = () => {
     token: { colorBgContainer },
   } = theme.useToken();
 
-  //filterTag 추가
-  const [selectedValue, setSelectedValue] = useState([]);
-  const [updateValue, setUpdateValue] = useState([]);
-  const [DrawerVisible, setDrawerVisible] = useState(false);
-  const tagChange = (data) => {
-    if (Object.keys(data).length !== 0) {
-      setSelectedValue(data);
-    } else {
-      setSelectedValue(data);
-    }
-  };
-  const handleTagClick = (isVisible) => {
-    setDrawerVisible(isVisible);
-  };
-  const handleDrawerClose = (isVisible) => {
-    setDrawerVisible(isVisible);
-  };
-  const handleTagListChange = (updatedValue) => {
-    setUpdateValue(updatedValue);
-  };
-
   return (
     <Layout>
-      <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className="demo-logo-vertical" />
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={["1"]}
-          items={[
-            {
-              key: "1",
-              icon: <UserOutlined />,
-              label: "nav 1",
-            },
-            {
-              key: "2",
-              icon: <VideoCameraOutlined />,
-              label: "nav 2",
-            },
-            {
-              key: "3",
-              icon: <UploadOutlined />,
-              label: "nav 3",
-            },
-          ]}
-        />
-      </Sider>
-      <Layout>
-        <Header
+      <Header
+        style={{
+          padding: 0,
+          background: colorBgContainer,
+        }}
+      >
+        <Button
+          type="text"
+          icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+          onClick={() => setCollapsed(!collapsed)}
           style={{
-            padding: 0,
-            background: colorBgContainer,
+            fontSize: "16px",
+            width: 64,
+            height: 64,
           }}
+        />
+      </Header>
+
+      <Layout>
+        <Sider
+          trigger={null}
+          collapsible
+          collapsed={collapsed}
+          style={{ height: "100vh" }}
         >
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{
-              fontSize: "16px",
-              width: 64,
-              height: 64,
-            }}
+          <div className="demo-logo-vertical" />
+          <Menu
+            theme="dark"
+            mode="inline"
+            defaultSelectedKeys={["1"]}
+            items={[
+              {
+                key: "0",
+                icon: <UserOutlined />,
+                label: "통합대시보드",
+              },
+              {
+                key: "1",
+                icon: <UserOutlined />,
+                label: "통합대시보드",
+              },
+              {
+                key: "2",
+                icon: <VideoCameraOutlined />,
+                label: "대시보드",
+              },
+              {
+                key: "3",
+                icon: <UploadOutlined />,
+                label: "보고서 다운로드",
+              },
+              {
+                key: "4",
+                icon: <UploadOutlined />,
+                label: "모니터링 알람",
+                children: [
+                  {
+                    key: "4-1",
+                    label: "알람 설정",
+                  },
+                  {
+                    key: "4-2",
+                    label: "알람 실행 스토리",
+                  },
+                ],
+              },
+              {
+                key: "5",
+                icon: <UploadOutlined />,
+                label: "매체 파일 업로드",
+              },
+              {
+                key: "6",
+                icon: <UploadOutlined />,
+                label: "매체 데이터 내보내기",
+              },
+              {
+                key: "7",
+                icon: <UploadOutlined />,
+                label: "매체 데이터 다운로드",
+              },
+            ]}
           />
-        </Header>
+        </Sider>
         <Layout>
           <Content
             style={{
-              margin: "24px 16px",
               padding: 24,
               minHeight: 280,
               background: colorBgContainer,
@@ -97,17 +115,6 @@ const App = () => {
               alignItems: "center",
             }}
           >
-            <FilterTagAdder
-              selectedValue={selectedValue}
-              onValueChange={handleTagListChange}
-              onTagClick={handleTagClick}
-            />
-            <Drawer
-              onValueChange={tagChange}
-              DrawerVisible={DrawerVisible}
-              onCloseDrawer={handleDrawerClose}
-              updateValue={updateValue}
-            />
             <div></div>
           </Content>
         </Layout>
