@@ -61,3 +61,20 @@ code {
 .DrawerContent {
   background: #fff;
 }
+
+/* Calendar */
+/* 달력 스타일 */
+.rs-picker-daterange-header {
+  visibility: hidden;
+  padding: 0px 0px !important;
+  height: 0;
+}
+.rs-picker-daterange-predefined {
+  height: 330px !important;
+}
+.rs-picker-daterange {
+  width: 210px;
+}
+.rs-picker-toolbar {
+  justify-content: flex-end;
+}

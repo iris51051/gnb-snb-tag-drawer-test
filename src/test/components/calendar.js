@@ -9,7 +9,7 @@ import endOfMonth from "date-fns/endOfMonth";
 import addMonths from "date-fns/addMonths";
 import koKR from "rsuite/locales/ko_KR";
 
-export const CustomDateRangePicker = () => {
+const Calendar = () => {
   const [selectedDate, setSelectedDate] = useState([]);
   const [PickedRange, setPickedRange] = useState([new Date(), new Date()]);
   const [startDate, setStartDate] = useState(new Date());
@@ -110,6 +110,7 @@ export const CustomDateRangePicker = () => {
   //DateRangePicker 기간 삭제시 PickedRange 초기화
   const resetRange = () => {
     setPickedRange([new Date(), new Date()]);
+    setSelectedDate([]);
   };
 
   //달력 선택 안하고 닫을 시의 PickedRange 값 설정
@@ -136,7 +137,9 @@ export const CustomDateRangePicker = () => {
         onClean={resetRange}
         editable={false}
         onClose={CloseCal}
+        placement="bottomEnd"
       />
     </CustomProvider>
   );
 };
+export default Calendar;

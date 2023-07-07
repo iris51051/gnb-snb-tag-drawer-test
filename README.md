@@ -15,6 +15,25 @@ npm i --save @fortawesome/free-solid-svg-icons
 npm i --save @fortawesome/free-regular-svg-icons
 npm i --save @fortawesome/react-fontawesome@latest
 
+## React-icon
+
+# npm install react-icons --save
+
+import { AiFillAlipayCircle } from "react-icons/ai";
+import { BsFill0CircleFill } from "react-icons/bs";
+import { GrFilter } from "react-icons/gr";
+
+아이콘 검색은 아래 주소
+https://react-icons.github.io/react-icons
+=========================================================
+
+## 달력
+
+rsuite
+
+npm i rsuite --save
+yarn add rsuite
+
 ## Chart
 
 -HightChart
@@ -33,8 +52,17 @@ npm install xlsx
 
 npm install react-router-dome
 
+## 'react-scripts' 오류
+
+==========================================
+둘 중 하나
+=> yarn ==> yarn add react-scripts
+=> npm ==> npm install -save react-scripts
+===========================================
 npm install antd highcharts-react-official xlsx
 npm i echarts-for-react
 npm i --save @fortawesome/free-solid-svg-icons
 npm i --save @fortawesome/free-regular-svg-icons
 npm i --save @fortawesome/react-fontawesome@latest
+
+npm i antd highcharts-react-official xlsx echarts-for-react @fortawesome/free-solid-svg-icons @fortawesome/free-regular-svg-icons @fortawesome/react-fontawesome@latest rsuite react-icons
