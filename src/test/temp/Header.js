@@ -25,10 +25,12 @@ const Gnb = ({ onValueChange }) => {
         <Link to="/" className="Logo">
           <img
             src={process.env.PUBLIC_URL + "/admin-logo-dark.png"}
+            alt="home"
             className="light-logo"
           />
           <img
             src={process.env.PUBLIC_URL + "/admin-text-dark.png"}
+            alt="home"
             className="light-text"
           ></img>
         </Link>

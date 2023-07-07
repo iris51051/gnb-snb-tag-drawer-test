@@ -5,6 +5,9 @@ import { Layout, theme } from "antd";
 import { useState } from "react";
 import Header from "./test/temp/Header";
 import Sider from "./test/temp/Sider";
+import Dashboard from "./test/temp/dashboard";
+import { PieChart } from "./test/components/ChartComponent";
+import { ChartScoreCard } from "./test/components/ChartComponent";
 import "./index.css";
 
 const { Content } = Layout;
@@ -17,7 +20,18 @@ const App = () => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-
+  const colors = [
+    "#4180ec",
+    "#4fd9bc",
+    "#494e5f",
+    "#30c7e9",
+    "#6269e9",
+    "#00aaaa",
+    "#42c360",
+    "#b5cf14",
+    "#eaab2f",
+    "#bababa",
+  ].slice(0, 10);
   return (
     <BrowserRouter>
       <Layout>
@@ -35,7 +49,7 @@ const App = () => {
               }}
             >
               <Routes>
-                <Route path="/temp/dashboard"></Route>
+                <Route path="/" element={<Dashboard />}></Route>
                 <Route path="/temp/report-down"></Route>
                 <Route path="/temp/monitoring/alarm"></Route>
                 <Route path="/temp/monitoring/alarm-story"></Route>
