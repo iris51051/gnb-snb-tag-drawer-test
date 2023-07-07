@@ -11,6 +11,17 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+/* Header */
+.Logo {
+  align-items: center;
+  display: flex;
+}
+.light-logo {
+  width: 50px;
+}
+.light-text {
+  width: 150px;
+}
 
 /* Drawer 스타일 */
 .ant-drawer-content-wrapper {
