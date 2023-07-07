@@ -22,6 +22,25 @@ code {
 .light-text {
   width: 150px;
 }
+/* Main */
+.active-title {
+  display: flex;
+  align-items: center;
+}
+.title-icon {
+  font-size: 24px;
+}
+.title-text {
+  font-size: 24px;
+  margin-left: 8px;
+}
+.title-Row {
+  padding: 15px 10px 9px 10px;
+}
+/* Content */
+.ant-layout-content {
+  padding: 0px 25px 15px 25px !important;
+}
 
 /* Drawer 스타일 */
 .ant-drawer-content-wrapper {

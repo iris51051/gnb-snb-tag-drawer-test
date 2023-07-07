@@ -8,6 +8,7 @@ import Sider from "./test/temp/Sider";
 import Dashboard from "./test/temp/dashboard";
 import { PieChart } from "./test/components/ChartComponent";
 import { ChartScoreCard } from "./test/components/ChartComponent";
+import Main from "./test/temp/Main";
 import "./index.css";
 
 const { Content } = Layout;
@@ -49,8 +50,8 @@ const App = () => {
               }}
             >
               <Routes>
-                <Route path="/" element={<Dashboard />}></Route>
-                <Route path="/temp/report-down"></Route>
+                <Route path="/" element={<Main />}></Route>
+                <Route path="/temp/report-down" element={<Dashboard />}></Route>
                 <Route path="/temp/monitoring/alarm"></Route>
                 <Route path="/temp/monitoring/alarm-story"></Route>
                 <Route path="/temp/media/upload"></Route>
