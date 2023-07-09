@@ -65,5 +65,5 @@ npm i --save @fortawesome/free-solid-svg-icons
 npm i --save @fortawesome/free-regular-svg-icons
 npm i --save @fortawesome/react-fontawesome@latest
 
-npm i antd highcharts-react-official xlsx echarts-for-react @fortawesome/free-solid-svg-icons @fortawesome/free-regular-svg-icons @fortawesome/react-fontawesome@latest rsuite react-icons
-npm install react-router-dom rsuite hightcharts
+npm i antd highcharts-react-official xlsx echarts-for-react @fortawesome/free-solid-svg-icons @fortawesome/free-regular-svg-icons @fortawesome/react-fontawesome@latest rsuite react-icons lodash
+npm install react-router-dom rsuite highcharts
